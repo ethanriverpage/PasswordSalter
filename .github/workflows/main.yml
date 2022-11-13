@@ -39,7 +39,7 @@ jobs:
         if: steps.cache-venv.outputs.cache-hit != 'true'
 
       - name: Virtualenv install && bandit test    
-        run: . venv/bin/activate && bandit -r ./app
+        run: . venv/bin/activate && bandit -r ./app/main.py
       
       # Step 7
       - name: Dependency zip
