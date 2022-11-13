@@ -1,5 +1,4 @@
 import hashlib
-
 import requests
 
 username = input("Enter username: ")
