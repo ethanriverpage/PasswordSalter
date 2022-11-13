@@ -1,13 +1,6 @@
-import json
+import dynamicsalter_master
 
+def lambda_handler():
+    print("Lambda deploy!")
+    dynamicsalter_master.main()
 
-def lambda_handler(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input":event
-    }
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
-    return response
