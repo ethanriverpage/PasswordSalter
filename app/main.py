@@ -67,17 +67,18 @@ def salting():
     elif salttypeinput == str("dynamic"):
         dynamicsalting()
 
-while True:
-    saltedquestion = input("Would you like your password salted? Type Y for yes and N for no. ")
-    if saltedquestion not in ["Y","N"]:
-        print("Please type Y or N to continue.")
-        continue
-    elif saltedquestion == "Y":
-        salting()
-        exit()
-    else:
-        nosalting()
-        exit()
+def handler():
+    while True:
+        saltedquestion = input("Would you like your password salted? Type Y for yes and N for no. ")
+        if saltedquestion not in ["Y","N"]:
+            print("Please type Y or N to continue.")
+            continue
+        elif saltedquestion == "Y":
+            salting()
+            exit()
+        else:
+            nosalting()
+            exit()
     
 
 
