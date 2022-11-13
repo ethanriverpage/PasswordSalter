@@ -35,8 +35,8 @@ jobs:
           pip3 install -r requirements.txt
         if: steps.cache-venv.outputs.cache-hit != 'true'
 
-      - name: Virtualenv install and pytest      
-        run: . venv/bin/activate && pytest
+      - name: Virtualenv install     
+        run: . venv/bin/activate
       
       # Step 7
       - name: Dependency zip
