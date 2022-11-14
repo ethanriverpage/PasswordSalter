@@ -6,7 +6,9 @@ import hashlib
 import requests
 
 global STATIC_SALT
+global ERROR_COUNT
 STATIC_SALT = ""
+ERROR_COUNT = 0
 
 
 def main():
@@ -102,10 +104,10 @@ def main():
             continue
         elif saltedquestion == "Y":
             salting()
-            sys.exit(0)
+            sys.exit(ERROR_COUNT)
         else:
             nosalting()
-            sys.exit(0)
+            sys.exit(ERROR_COUNT)
 
 
 if __name__ == "__main__":
