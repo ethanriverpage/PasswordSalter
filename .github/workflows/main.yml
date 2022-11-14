@@ -21,8 +21,8 @@ jobs:
       - name: Python virtualenv install
         run: pip3 install virtualenv
 
-      - name: Python Bandit & pylint install
-        run: pip3 install bandit && pip3 install pylint
+      - name: Python Bandit & pylint install & pylint-exit
+        run: pip3 install bandit && pip3 install pylint && pip3 install pylint-exit
 
       - name:  Python setup virtualenv
         uses: actions/cache@v2
@@ -41,8 +41,11 @@ jobs:
       - name: Virtualenv install 
         run: . venv/bin/activate
       
-      - name: Security and linting test
-        run: bandit -r ./app/dynamicsalter_master.py && pylint ./app/dynamicsalter_master.py
+      - name: Security test
+        run: bandit -r ./app/dynamicsalter_master.py 
+      
+      - name: Linting test
+        run: pylint ./app/dynamicsalter_master.py || pylint-exit $?
       # Step 7
       - name: Dependency zip
         run: |
