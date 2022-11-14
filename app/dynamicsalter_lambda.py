@@ -104,10 +104,10 @@ def main():
             continue
         elif saltedquestion == "Y":
             salting()
-            sys.exit(ERROR_COUNT)
+            #sys.exit(ERROR_COUNT)
         else:
             nosalting()
-            sys.exit(ERROR_COUNT)
+            #sys.exit(ERROR_COUNT)
 
 
 if __name__ == "__main__":
