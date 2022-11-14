@@ -1,7 +1,10 @@
-def main():
+import hashlib
+import requests
 
-    import hashlib
-    import requests
+global staticsalt
+staticsalt = ""
+
+def main():
 
     username = input("Enter username: ")
     password = input("Enter password: ")
@@ -12,25 +15,31 @@ def main():
     staticsalt = ""
 
     def restapi_request():
-            print("Contacting the REST API...")
-            try:
-                response = requests.get(api_url)
-                json_data = response.json() if response.status_code == 200 else None
-                if json_data and 'answer' in json_data:
-                    api_answer = json_data['answer']
-                    print("API answered: " + str(api_answer))
-                    global staticsalt
-                    staticsalt = str(api_answer)
-            except requests.exceptions.RequestException as e:
-                print("Request to REST API failed. Check your internet connection and try again later.")
-            pass
+        print("Contacting the REST API...")
+        try:
+            response = requests.get(api_url, timeout=10)
+            json_data = response.json() if response.status_code == 200 else None
+            if json_data and "answer" in json_data:
+                api_answer = json_data["answer"]
+                print("API answered: " + str(api_answer))
+                global staticsalt
+                staticsalt = str(api_answer)
+        except requests.exceptions.RequestException:
+            print(
+                "Request to REST API failed. Check your internet connection and try again later."
+            )
 
     def staticsalting():
         global staticsalt
         while True:
-            restapiinput = input("Would you like to pull a random salt, or use your own? Type 'random' for random or 'input' for choosing your own: ")
-            if restapiinput not in ["random","input"]:
-                print(str(restapiinput) + " is not a valid option. Valid choices are 'random' or input'.")
+            restapiinput = input(
+                "Would you like to pull a random salt, or use your own? Type 'random' for random or 'input' for choosing your own: "
+            )
+            if restapiinput not in ["random", "input"]:
+                print(
+                    str(restapiinput)
+                    + " is not a valid option. Valid choices are 'random' or input'."
+                )
                 continue
             else:
                 break
@@ -42,15 +51,23 @@ def main():
 
         staticsaltfullstring = str(f"{password}{staticsalt}")
         staticsalthashobject = hashlib.sha512(staticsaltfullstring.encode())
-        print("Statically salted SHA512 hash: " + staticsalthashobject.hexdigest() + " using salt: " + str(staticsaltfullstring))
-        
-
+        print(
+            "Statically salted SHA512 hash: "
+            + staticsalthashobject.hexdigest()
+            + " using salt: "
+            + str(staticsaltfullstring)
+        )
 
     def dynamicsalting():
         inputMerged = str(f"{username}{password}{creationdate}")
         fullstring = str(inputMerged) + str(len(inputMerged))
         hash_object = hashlib.sha512(fullstring.encode())
-        print("Dynamically salted sha512 hash: " + hash_object.hexdigest() + " using salt: " + fullstring)
+        print(
+            "Dynamically salted sha512 hash: "
+            + hash_object.hexdigest()
+            + " using salt: "
+            + fullstring
+        )
 
     def nosalting():
         nosalthashobject = hashlib.sha512(password.encode())
@@ -58,9 +75,14 @@ def main():
 
     def salting():
         while True:
-            salttypeinput = input("Would you like your credentials statically or dynamically salted? ")
-            if salttypeinput not in ["static","dynamic"]:
-                print(str(salttypeinput) + " is not a valid option. Valid choices are 'static' or 'dynamic'. Please choose a valid salt type.")
+            salttypeinput = input(
+                "Would you like your credentials statically or dynamically salted? "
+            )
+            if salttypeinput not in ["static", "dynamic"]:
+                print(
+                    str(salttypeinput)
+                    + " is not a valid option. Valid choices are 'static' or 'dynamic'. Please choose a valid salt type."
+                )
                 continue
             else:
                 break
@@ -70,8 +92,10 @@ def main():
             dynamicsalting()
 
     while True:
-        saltedquestion = input("Would you like your password salted? Type Y for yes and N for no. ")
-        if saltedquestion not in ["Y","N"]:
+        saltedquestion = input(
+            "Would you like your password salted? Type Y for yes and N for no. "
+        )
+        if saltedquestion not in ["Y", "N"]:
             print("Please type Y or N to continue.")
             continue
         elif saltedquestion == "Y":
@@ -80,11 +104,7 @@ def main():
         else:
             nosalting()
             exit()
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     main()
-
-
-    
-
-

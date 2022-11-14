@@ -21,8 +21,8 @@ jobs:
       - name: Python virtualenv install
         run: pip3 install virtualenv
 
-      - name: Python Bandit install
-        run: pip3 install bandit
+      - name: Python Bandit & pylint install
+        run: pip3 install bandit && pip3 install pylint
 
       - name:  Python setup virtualenv
         uses: actions/cache@v2
@@ -39,8 +39,10 @@ jobs:
         if: steps.cache-venv.outputs.cache-hit != 'true'
 
       - name: Virtualenv install && bandit test    
-        run: . venv/bin/activate && bandit -r ./app/main.py
+        run: . venv/bin/activate && 
       
+      - name: Security and linting test
+        run: bandit -r ./app/dynamicsalter_master.py && pylint ./app/dynamicsalter_master.py
       # Step 7
       - name: Dependency zip
         run: |
