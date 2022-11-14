@@ -102,10 +102,10 @@ def main():
             continue
         elif saltedquestion == "Y":
             salting()
-            sys.exit()
+            sys.exit(0)
         else:
             nosalting()
-            sys.exit()
+            sys.exit(0)
 
 
 if __name__ == "__main__":
