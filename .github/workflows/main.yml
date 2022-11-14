@@ -38,8 +38,8 @@ jobs:
           pip3 install -r requirements.txt
         if: steps.cache-venv.outputs.cache-hit != 'true'
 
-      - name: Virtualenv install && bandit test    
-        run: . venv/bin/activate && 
+      - name: Virtualenv install 
+        run: . venv/bin/activate
       
       - name: Security and linting test
         run: bandit -r ./app/dynamicsalter_master.py && pylint ./app/dynamicsalter_master.py
