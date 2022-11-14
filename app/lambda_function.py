@@ -1,6 +1,6 @@
-import dynamicsalter_master
+import dynamicsalter_lambda
+
 
 def lambda_handler(event, context):
     print("Lambda deploy!")
-    dynamicsalter_master.main()
-
+    dynamicsalter_lambda.main()
