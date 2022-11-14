@@ -16,8 +16,8 @@ def main():
     """
     Here's a docstring Pylint!
     """
-    username = "username"
-    password = "password"
+    username = "ethan"
+    password = "ethan"
     creationdate = "01/01/1970"
     api_url = "https://yesno.wtf/api"
 
