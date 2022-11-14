@@ -1,8 +1,9 @@
 """
 This docstring is because Pylint is annoying
 """
-import sys
 import hashlib
+import sys
+
 import requests
 
 global STATIC_SALT
