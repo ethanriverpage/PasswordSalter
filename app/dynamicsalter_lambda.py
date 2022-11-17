@@ -1,9 +1,10 @@
 """
-This docstring is because Pylint is annoying
+'dynamicsalter_lambda.py' was created specifically to automatically define variables so that Lambda
+would not reach an EOF error when trying to receive user input.
+It was created based on 'dynamicsalter_master.py'.
+Yes, I know global variables are bad.
 """
 import hashlib
-import sys
-
 import requests
 
 global STATIC_SALT
@@ -91,8 +92,7 @@ def main():
                     + ". Please choose a valid salt type."
                 )
                 continue
-            else:
-                break
+            break
         if salttypeinput == str("static"):
             staticsalting()
         elif salttypeinput == str("dynamic"):
@@ -103,7 +103,7 @@ def main():
         if saltedquestion not in ["Y", "N"]:
             print("Please type Y or N to continue.")
             continue
-        elif saltedquestion == "Y":
+        if saltedquestion == "Y":
             salting()
             return 0
         else:
