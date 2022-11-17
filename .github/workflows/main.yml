@@ -2,16 +2,15 @@ name: CICDPipeline
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
-
   continuous-integration:
     runs-on: ubuntu-latest
 
-    steps:  
+    steps:
       - uses: actions/checkout@v2
-      
+
       #Setup Python 3.9
       - name: Python setup
         uses: actions/setup-python@v2
@@ -25,7 +24,7 @@ jobs:
       - name: Python Bandit & pylint & pylint-exit installation
         run: pip3 install bandit && pip3 install pylint && pip3 install pylint-exit
         #Setup virtual environment for python
-      - name:  Python setup virtualenv
+      - name: Python setup virtualenv
         uses: actions/cache@v2
         id: cache-venv
         with:
@@ -39,14 +38,14 @@ jobs:
           pip3 install -r requirements.txt
         if: steps.cache-venv.outputs.cache-hit != 'true'
         # Activate virtual environment
-      - name: Virtualenv install 
+      - name: Virtualenv install
         run: . venv/bin/activate
         #Runs Python Bandit for static security testing of code
       - name: Security test
-        run: bandit -r ./app/dynamicsalter_master.py 
+        run: bandit -r ./app/dynamicsalter_lambda.py
         #Checks linting of code, uses pylint-exit to return proper exit codes
       - name: Linting test
-        run: pylint ./app/dynamicsalter_master.py || pylint-exit $?
+        run: pylint ./app/dynamicsalter_lambda.py || pylint-exit $?
         # Zips up dependencies and creates Lambda.zip
       - name: Dependency zip
         run: |
@@ -67,7 +66,7 @@ jobs:
     needs: [continuous-integration] #Will not continue unless testing succeeds
     if: github.ref == 'refs/heads/master'
     steps:
-        #Installs AWS CLI using env variables from Actions Secrets
+      #Installs AWS CLI using env variables from Actions Secrets
       - name: AWS CLI install
         uses: unfor19/install-aws-cli-action@master
         with:
