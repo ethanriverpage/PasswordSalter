@@ -12,18 +12,19 @@ jobs:
     steps:  
       - uses: actions/checkout@v2
       
+      #Setup Python 3.9
       - name: Python setup
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
           architecture: x64
-
+        #Install virtualenv for Python
       - name: Python virtualenv install
         run: pip3 install virtualenv
-
-      - name: Python Bandit & pylint install & pylint-exit
+        #Install testing tools
+      - name: Python Bandit & pylint & pylint-exit installation
         run: pip3 install bandit && pip3 install pylint && pip3 install pylint-exit
-
+        #Setup virtual environment for python
       - name:  Python setup virtualenv
         uses: actions/cache@v2
         id: cache-venv
@@ -32,31 +33,29 @@ jobs:
           key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
-
-      - name: Dependency install
+        # Activate Python virtualenv and install dependencies
+      - name: Virtual environment activation and install dependencies
         run: python -m venv venv && source venv/bin/activate &&
           pip3 install -r requirements.txt
         if: steps.cache-venv.outputs.cache-hit != 'true'
-
+        # Activate virtual environment
       - name: Virtualenv install 
         run: . venv/bin/activate
-      
+        #Runs Python Bandit for static security testing of code
       - name: Security test
         run: bandit -r ./app/dynamicsalter_master.py 
-      
+        #Checks linting of code, uses pylint-exit to return proper exit codes
       - name: Linting test
         run: pylint ./app/dynamicsalter_master.py || pylint-exit $?
-      # Step 7
+        # Zips up dependencies and creates Lambda.zip
       - name: Dependency zip
         run: |
           cd ./venv/lib/python3.9/site-packages
           zip -r9 ../../../../lambda.zip .
-      
-      # Step 8
+        # Add application to lambda.zip
       - name: Add application to zip file
         run: cd ./app && zip -g ../lambda.zip -r .
-      
-      # Step 9
+        #Upload zip as artifact
       - name: Upload zip
         uses: actions/upload-artifact@v2
         with:
@@ -65,10 +64,10 @@ jobs:
 
   continuous-deployment:
     runs-on: ubuntu-latest
-    needs: [continuous-integration]
+    needs: [continuous-integration] #Will not continue unless testing succeeds
     if: github.ref == 'refs/heads/master'
     steps:
-
+        #Installs AWS CLI using env variables from Actions Secrets
       - name: AWS CLI install
         uses: unfor19/install-aws-cli-action@master
         with:
@@ -77,19 +76,19 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-
+        #Downloads lambda.zip artifact
       - name: Download Lambda.zip
         uses: actions/download-artifact@v2
         with:
           name: lambda
-
+        #Uploads lambda.zip to S3 bucket
       - name: Upload to S3
         run: aws s3 cp lambda.zip s3://fsa-enterpriseassessment-ethanriverpage/lambda.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-
+        #Deploys lambda.zip within the S3 bucket to AWS Lambda
       - name: Deploy new Lambda
         run: aws lambda update-function-code --function-name fsa-enterpriseassessment-lambda --s3-bucket fsa-enterpriseassessment-ethanriverpage --s3-key lambda.zip
         env:
