@@ -2,11 +2,17 @@
 
 # Password Salter
 
-### This is a password salter, supporting dynamic salting, static salting, and usage of data from a REST API as part of a password salt.
-### Built using Python, CI/CD pipeline with GitHub Actions, and deployed to an AWS S3 bucket and subsequently a Lambda function.
+### Password Salter (written in scratch from Python)
+#### Supports dynamic & static salting, using a REST API to pull salts, & more!
+> This was done as part of an assessment for Fullstack Academy, used to test CI/CD pipeline deployment, AWS Lambda functions, among others.
 
-#### This was done as part of an assessment for a DevOps Engineering class with Fullstack Academy.
-
-This project uses [Bandit](https://github.com/PyCQA/bandit) for automated security testing and [pylint](https://github.com/PyCQA/pylint/) for linting and formatting. Tested during CI.
-
-This project also uses GitHub Secrets for environment variables. `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_DEFAULT_REGION`. 
+#### This project uses:
+* Python as primary language
+* [Bandit](https://github.com/PyCQA/bandit) for security testing
+* [pylint](https://github.com/PyCQA/pylint) for linting & formatting
+* [GitHub Actions](https://github.com/features/actions) for CI/CD pipeline
+* [AWS CLI](https://aws.amazon.com/cli/) for deployment to S3 & Lambda.
+* [GitHub Actions Secrets](https://docs.github.com/en/rest/actions/secrets) for storing environment variables
+```
+Environment Variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_DEFAULT_REGION`
+```
