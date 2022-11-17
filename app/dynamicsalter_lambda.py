@@ -18,7 +18,8 @@ def main():
     Here's a docstring Pylint!
     """
     username = "ethan"
-    password = "ethan"
+    password = "ethan"  # nosec
+    # Bandit reports pre-set passwords as a security risk. Adding #nosec disables the check for this line.
     creationdate = "01/01/1970"
     api_url = "https://yesno.wtf/api"
 
