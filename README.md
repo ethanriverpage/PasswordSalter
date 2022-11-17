@@ -4,6 +4,7 @@
 
 ### Password Salter (written from scratch in Python)
 #### Supports dynamic & static salting, using a REST API to pull salts, & more!
+##### Built to be dependency-less
 > This was done as part of an assessment for Fullstack Academy, used to test knowledge CI/CD pipeline deployment, AWS Lambda functions, among others.
 
 #### This project uses:
