@@ -6,6 +6,7 @@
 #### Supports dynamic & static salting, using a REST API to pull salts, & more!
 ##### Built to be dependency-less
 > This was done as part of an assessment for Fullstack Academy, used to test knowledge CI/CD pipeline deployment, AWS Lambda functions, among others.
+> [Click here](https://www.youtube.com/watch?v=9SyqU9XVHAk) for a video presentation I gave breaking down this project.
 
 #### This project uses:
 * Python as primary language
